@@ -408,6 +408,9 @@ fsync is performed using a background thread and the main thread will try hard t
 fsync every time a new command is appended to the AOF. **Very very slow, very safe**
 
 
+**守りたいところは逐一transaction挟めばいーじゃん．**
+
+
 ---
 
 ## 永続性補足: master-slave replication
