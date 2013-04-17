@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/reset.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="css/favicon.png" />
+    <link rel="apple-touch-icon" href="css/apple-touch-icon.png" />
+    <!-- Code Prettifier: -->
+<link href="css/highlight.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <link href="css/style.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,800italic,300,400,800' rel='stylesheet' type='text/css'>    
+
+
+  </head>
+
+  <body>
+  <div class="fallback-message">
+  <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+  <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+  </div>
+    <div id="impress">
+    <div class='step' >
+    
+<h1>redis - 魅惑のスピードとちょっと変わった柔軟性</h1>
+
+<h2>naoki @s-cubism 2013/04/17</h2>
+</div>
+      <div class='step' >
+    
+<ul>
+<li><strong>リアルタイム解析</strong>にredisが使えないか検討中．</li>
+<li><strong>4つの方向</strong>からredisをひも解いてみます．</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<ul>
+<li>ちなみにnpm/database界隈でredisは一番人気</li>
+</ul>
+
+<p><a href="https://nodejsmodules.org/tags/database">https://nodejsmodules.org/tags/database</a></p>
+</div>
+      <div class='step' >
+    
+<p>整合性？リレーション？</p>
+
+<p>分散性？可用性？永続性？</p>
+
+<p>機能性？アドホック？</p>
+
+<p>スループット？レイテンシ？</p>
+</div>
+      <div class='step' >
+    
+<p>整合性？リレーション？</p>
+
+<p>分散性？可用性？永続性？</p>
+
+<p>機能性？アドホック？</p>
+
+<p><strong><em>スループット？レイテンシ？</em></strong></p>
+</div>
+      <div class='step' >
+    
+<h1>スループット？レイテンシ？</h1>
+
+<h2><strong>redisは速いのか？</strong></h2>
+</div>
+      <div class='step' >
+    
+<p><a href="http://mocobeta-backup.tumblr.com/post/36435137765/kvs-memcached-couchbase-mongodb-redis">http://mocobeta-backup.tumblr.com/post/36435137765/kvs-memcached-couchbase-mongodb-redis</a></p>
+</div>
+      <div class='step' >
+    
+<h2>スループット？レイテンシ？</h2>
+
+<ul>
+<li>単体サーバ &amp; 単純set/get</li>
+</ul>
+
+<blockquote>
+<ul>
+<li><strong>35000tps</strong>(read/write/update)</li>
+<li><strong>0.05ms</strong>!!!</li>
+</ul>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>スループット？レイテンシ？</h2>
+
+<ul>
+<li><p>ちなみに(単体サーバでの)簡単な比較(だいたい)</p></li>
+<li><p>mysql</p></li>
+</ul>
+
+<blockquote>
+<ul>
+<li>~<strong>3000tps</strong></li>
+<li>~<strong>2ms</strong></li>
+</ul>
+</blockquote>
+
+<ul>
+<li>mongo</li>
+</ul>
+
+<blockquote>
+<ul>
+<li>~<strong>10000tps</strong></li>
+<li>~<strong>2ms</strong></li>
+</ul>
+</blockquote>
+
+<p>cassandraとかcouchbaseとかは他の人に聞いてみて下さい．</p>
+</div>
+      <div class='step' >
+    
+<h2>結論！！</h2>
+
+<ul>
+<li>redisは速い！</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<p>その気になったら負荷検証スクリプト上げときます．</p>
+
+<p>range queryとaggregationなども比較してます．
+riak, couchbaseとか．redshiftとかdynamodbとか．</p>
+
+<p>(YCSBとか重くね？)</p>
+</div>
+      <div class='step' >
+    
+<p>整合性？リレーション？</p>
+
+<p>分散性？可用性？永続性？</p>
+
+<p>機能性？アドホック？</p>
+
+<p>スループット？レイテンシ？</p>
+</div>
+      <div class='step' >
+    
+<p>整合性？リレーション？</p>
+
+<p>分散性？可用性？永続性？</p>
+
+<p><strong><em>機能性？アドホック？</em></strong></p>
+
+<p>スループット？レイテンシ？</p>
+</div>
+      <div class='step' >
+    
+<h1>機能性？アドホック？</h1>
+
+<h2>redisは使えるのか？</h2>
+</div>
+      <div class='step' >
+    
+<ul>
+<li>key-valueだけれど、valueにけっこー<strong>いろんな型</strong>がある．</li>
+<li><strong>ユニークな操作</strong>もかなりある．</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<p>参考:
+the little redis book</p>
+
+<blockquote>
+<p><a href="https://github.com/craftgear/the-little-redis-book/blob/master/ja/redis.md">https://github.com/craftgear/the-little-redis-book/blob/master/ja/redis.md</a></p>
+</blockquote>
+
+<p>documents: commands</p>
+
+<blockquote>
+<p><a href="http://redis.io/commands">http://redis.io/commands</a></p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>5つのデータ構造</h2>
+
+<p>str(bitmap)</p>
+
+<p>hash</p>
+
+<p>list</p>
+
+<p>set</p>
+
+<p>sorted set</p>
+</div>
+      <div class='step' >
+    
+<h2>データ構造の操作</h2>
+
+<p>str(bitmap) : set, get, strlen, <strong>getrange</strong>, append, incr, incrby, <strong>setbit</strong>, <strong>getbit</strong></p>
+
+<p>hash : hset, hget, hmset, hmget, hgetall, hkeys, hdel</p>
+
+<p>list : lpush, ltrim</p>
+
+<p>set: sadd, <strong>sismember</strong>, <strong>sinter</strong>, sinterstore</p>
+
+<p>sorted set: zadd, <strong>zcount</strong>, <strong>zrevrank</strong></p>
+</div>
+      <div class='step' >
+    
+<h2>注意点</h2>
+
+<ul>
+<li>O(logN)とかO(N)とかけっこーあるよ．</li>
+<li>ってかむしろO(1)が基本とかすごいよね！</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>piplining</h2>
+
+<p>単にまとめてリクエスト送る機能．
+ネットワーク負荷軽減</p>
+
+<p>(パイプラインじゃなくね？？)</p>
+<pre><code class='prettyprint ruby'>redis.pipelined do
+  100.times do
+    redis.incr('powerlevel')
+  end
+end
+</code></pre></div>
+      <div class='step' >
+    
+<h2>その他</h2>
+
+<ul>
+<li>sort -&gt; list, set, sorted set</li>
+<li>expire</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>結論</h2>
+
+<p>かなりおもろいね！</p>
+</div>
+      <div class='step' >
+    
+<p>整合性？リレーション？</p>
+
+<p>分散性？可用性？永続性？</p>
+
+<p>機能性？アドホック？</p>
+
+<p>スループット？レイテンシ？</p>
+</div>
+      <div class='step' >
+    
+<p><strong><em>整合性？リレーション？</em></strong></p>
+
+<p>分散性？可用性？永続性？</p>
+
+<p>機能性？アドホック？</p>
+
+<p>スループット？レイテンシ？</p>
+</div>
+      <div class='step' >
+    
+<h1>整合性？リレーション？</h1>
+
+<h2>いろいろ制約あるんだけど．．</h2>
+</div>
+      <div class='step' >
+    
+<h2>整合性？リレーション？</h2>
+
+<p>x リレーション</p>
+
+<p>o トランザクション</p>
+
+<p>multi, exec, discard</p>
+<pre><code class='prettyprint sql'>multi
+hincrby groups:1percent balance -9000000000
+hincrby groups:99percent balance 9000000000
+exec
+</code></pre>
+<p>o CAS(楽観ロック)</p>
+
+<p>watch </p>
+</div>
+      <div class='step' >
+    
+<h2>トランザクション</h2>
+
+<blockquote>
+<p>All the commands in a transaction are <strong>serialized</strong> and executed sequentially</p>
+</blockquote>
+
+<blockquote>
+<p>a Redis transaction is also <strong>atomic</strong></p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>トランザクション</h2>
+
+<blockquote>
+<p>However if the Redis server crashes or is killed by the system administrator in some hard way it is possible that only a partial number of operations are registered. </p>
+</blockquote>
+
+<blockquote>
+<p>Using the redis-check-aof tool it is possible to fix the append only file that will remove the partial transaction so that the server can start again</p>
+</blockquote>
+
+<p><strong>atomic性保つよ．crash時には復帰時にどうにかするよ．</strong></p>
+</div>
+      <div class='step' >
+    
+<h2>トランザクション</h2>
+
+<p><strong>warning!!: エラー時の挙動</strong></p>
+
+<p>シンタックスエラーは先に検知するが、<strong>型による操作の間違い</strong>はそのまま通る．</p>
+
+<blockquote>
+<p>even when a command fails, all the other commands in the queue are processed</p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>トランザクション</h2>
+
+<p><strong>warning!!: エラー時の挙動</strong></p>
+<pre><code class='prettyprint '>MULTI
+SET a 3
+LPOP a
+EXEC
+</code></pre><pre><code class='prettyprint '>+ OK
+- ERR Operation against a key holding the wrong kind of value
+</code></pre>
+<blockquote>
+<p>a kind of error that is very likely to be detected during development, and not in production</p>
+</blockquote>
+
+<blockquote>
+<p>simplified and faster</p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>CAS: 楽観ロック</h2>
+
+<blockquote>
+<p>If at least one <strong>watched key is modified</strong> before the EXEC command, the <strong>whole transaction aborts</strong></p>
+</blockquote>
+
+<blockquote>
+<p>watch zset<br>
+element = zrange zset 0 0<br>
+multi<br>
+zrem zset element<br>
+exec  </p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>結論</h2>
+
+<p>まぁまぁだよね．型エラーには気をつけて．</p>
+
+<p>ってか、整合性ってけっきょく永続性とか分断耐性とかと組みだよね！</p>
+</div>
+      <div class='step' >
+    
+<p>整合性？リレーション？</p>
+
+<p>分散性？可用性？永続性？</p>
+
+<p>機能性？アドホック？</p>
+
+<p>スループット？レイテンシ？</p>
+</div>
+      <div class='step' >
+    
+<p>整合性？リレーション？</p>
+
+<p><strong><em>分散性？可用性？永続性？</em></strong></p>
+
+<p>機能性？アドホック？</p>
+
+<p>スループット？レイテンシ？</p>
+</div>
+      <div class='step' >
+    
+<h1>分散性？可用性？永続性？</h1>
+
+<h2>データ守れる？サービス守れる？</h2>
+</div>
+      <div class='step' >
+    
+<h2>永続性</h2>
+
+<ol>
+<li>RDB: snapshoting</li>
+<li>AOF: append only file</li>
+</ol>
+</div>
+      <div class='step' >
+    
+<h2>RDB</h2>
+
+<p>pros:</p>
+
+<blockquote>
+<p>RDB files are perfect for backups<br>
+very good for disaster recovery, being a single compact file can be transfered to far data centers<br>
+maximizes Redis performances<br>
+faster restarts</p>
+</blockquote>
+
+<p>cons:</p>
+
+<blockquote>
+<p>data loss!<br>
+fork() cost  </p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>AOF</h2>
+
+<p>pros:</p>
+
+<blockquote>
+<p>durable<br>
+different fsync policies: no fsync at all, fsync every second(default), fsync at every query<br>
+rewrite the AOF in background when it gets too big</p>
+
+<p>cons:</p>
+
+<p>bigger<br>
+slower</p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>warning</h2>
+
+<blockquote>
+<p>fsync is performed using a background thread and the main thread will try hard to perform writes when no fsync is in progress.</p>
+</blockquote>
+
+<blockquote>
+<p>fsync every time a new command is appended to the AOF. <strong>Very very slow, very safe</strong></p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>永続性補足: master-slave replication</h2>
+
+<blockquote>
+<p>Replications can be used both <strong>for scalability</strong>, in order to have multiple slaves <strong>for read-only queries</strong></p>
+</blockquote>
+
+<p>failoverはredis sentinel</p>
+</div>
+      <div class='step' >
+    
+<h2>シャーディング</h2>
+
+<p>メモリ、cpu, スループット限界な時．</p>
+
+<p>proxy: redis cluster, Twemproxy</p>
+
+<p>client: <a href="http://redis.io/clients">http://redis.io/clients</a></p>
+
+<p>warning!</p>
+
+<blockquote>
+<p>Redis Cluster is currently not production ready</p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<ul>
+<li>range partitioning</li>
+<li>hash partitionin</li>
+</ul>
+
+<p>(consistent hashing)</p>
+</div>
+      <div class='step' >
+    
+<p><strong>redis sentinel</strong>
+monitoring, notification, automatic failover</p>
+
+<p>また今度で．．</p>
+</div>
+      <div class='step' >
+    
+<h2>結論</h2>
+
+<p>基本そこは目をつぶるよね．</p>
+</div>
+      <div class='step' >
+    
+<h1>その他トピック</h1>
+
+<h2>Fast, easy, realtime metrics using Redis bitmaps</h2>
+
+<p><a href="http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps/">http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps/</a></p>
+
+<h2>Redis as the primary data store? WTF?!</h2>
+
+<p><a href="http://moot.it/blog/technology/redis-as-primary-datastore-wtf.html">http://moot.it/blog/technology/redis-as-primary-datastore-wtf.html</a></p>
+</div>
+      <div class='step' >
+    
+<h2>Fast, easy, realtime metrics using Redis bitmaps</h2>
+
+<ul>
+<li>facebookに買われたspoolでのアクセス解析方法</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>Fast, easy, realtime metrics using Redis bitmaps</h2>
+<pre><code class='prettyprint '>redis.setbit(play:yyyy-mm-dd, user_id, 1)
+</code></pre>
+<p><img src="unique_users.png" alt="img">
+<img src="union.png" alt="img"></p>
+
+<p>population countはcpuの命令セットに含まれてるから速いよ（全てではない）<br>
+<a href="http://en.wikipedia.org/wiki/Hamming_weight">http://en.wikipedia.org/wiki/Hamming_weight</a></p>
+</div>
+      <div class='step' >
+    
+<h2>Fast, easy, realtime metrics using Redis bitmaps</h2>
+
+<ul>
+<li>128 million users</li>
+<li>50 ms</li>
+<li>16 mb</li>
+</ul>
+
+<p>Daily:  50.2ms<br>
+Weekly: 392.0ms<br>
+Monthly:    1624.8ms  </p>
+</div>
+      <div class='step' >
+    
+<h2>Fast, easy, realtime metrics using Redis bitmaps</h2>
+
+<ul>
+<li>あまり大量は使えないけど．．</li>
+<li>とりあえず一桁下げれそう．</li>
+<li>npmだと現状popcount速いのない．．</li>
+<li>pythonだとgmpyってのでpopcountすると良さそう．</li>
+</ul>
+
+<p><a href="http://stackoverflow.com/questions/9829578/fast-way-of-counting-bits-in-python">http://stackoverflow.com/questions/9829578/fast-way-of-counting-bits-in-python</a></p>
+</div>
+      <div class='step' >
+    
+<h2>Redis as the primary data store? WTF?!</h2>
+
+<ul>
+<li>Mootという会社
+&gt;
+We had an initial goal that all API calls would be processed in <strong>less than 10ms</strong> even under heavy load</li>
+</ul>
+
+<p>単純なアプリケーション側シャーディングでデータサイズはカバー<br>
+自前のmaster(write)/slave(read)/persistence(backup to S3)のroleを定義<br>
+failoverはなし(sentinelまだ出てなかった)</p>
+</div>
+      <div class='step' >
+    
+<h1>補足</h1>
+
+<blockquote>
+<p>16 core machine will only use one core with Redis</p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>時間なし！</h2>
+
+<p><strong>pub/sub</strong>
+けっこー面白いけど．．</p>
+
+<p><strong>redis sentinel</strong>
+monitoring, notification, automatic failover</p>
+
+<p><strong>redis cluster</strong></p>
+
+<p>mass insertion</p>
+
+<p>security</p>
+
+<p>signals/crash</p>
+
+<p>scripting</p>
+
+      </div>
+    <script src="js/impress.js"></script>
+    <script>impress().init();</script>
+  </body>
+</html>
+    
