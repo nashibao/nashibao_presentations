@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/reset.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="css/favicon.png" />
+    <link rel="apple-touch-icon" href="css/apple-touch-icon.png" />
+    <!-- Code Prettifier: -->
+<link href="css/highlight.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <link href="css/style.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,800italic,300,400,800' rel='stylesheet' type='text/css'>    
+
+
+  </head>
+
+  <body>
+  <div class="fallback-message">
+  <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+  <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+  </div>
+    <div id="impress">
+    <div class='step' >
+    
+<h1>新卒向け勉強会その6?</h1>
+
+<h2>naoki 04/21</h2>
+</div>
+      <div class='step' >
+    
+<h2>人間って、全体像が見えていないと、なんだか分かった気になれないと思いませんか？</h2>
+</div>
+      <div class='step' >
+    
+<h2>今日はウェブアプリケーションがどう動いているのかの入門編です．</h2>
+</div>
+      <div class='step' >
+    
+<h2>もう一つは、ウェブアプリケーションをどのように構造化するかの入門編です．</h2>
+</div>
+      <div class='step' >
+    
+<h2>ウェブアプリケーション</h2>
+
+<blockquote>
+<p>A web application is <strong><em>an application</em></strong> that is accessed by users <strong><em>over a network</em></strong> such as the Internet or an intranet. </p>
+</blockquote>
+
+<p>by wikipedia</p>
+</div>
+      <div class='step' >
+    
+<h1>全体像</h1>
+</div>
+      <div class='step' >
+    
+<p align="center">
+  <img src="./slice4.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>なんだかいろいろあるな．めんどくさ．．</h2>
+</div>
+      <div class='step' >
+    
+<h2>まずは言葉を覚えよう</h2>
+</div>
+      <div class='step' >
+    
+<h2>サーバと<strong><em>物理</em></strong>サーバ</h2>
+
+<p>サーバだけだと、プロセスなのか、マシンなのか定かじゃないから、わざわざ物理サーバと言ったりするよ．</p>
+</div>
+      <div class='step' >
+    
+<h2>1. ウェブサーバ</h2>
+
+<blockquote>
+<p>定義: ウェブプロトコル(~HTTP)でクライアント（~ブラウザ）とやり取りするサービス（~プロセス）．またはコンピュータ． </p>
+</blockquote>
+
+<p>ブラウザから<strong><em>リクエスト</em></strong>を受け取って、(データベースから引っ張ってきて)ブラウザに<strong><em>レスポンス</em></strong>を返すプロセス(マシン)だよ．</p>
+</div>
+      <div class='step' >
+    
+<h2>2. DBサーバ</h2>
+
+<p><strong><em>データベースとのやり取りを管理</em></strong>してくれるプロセス（マシン）だよ．</p>
+</div>
+      <div class='step' >
+    
+<h2>3. アプリケーションサーバ</h2>
+
+<p><strong><em>アプリケーションの機能</em></strong>（多くの場合は、DBとUI間の情報の制御）を実行するプロセス（マシン）のことだよ．</p>
+
+<p>これが一番<strong><em>重要</em></strong>だよ．</p>
+</div>
+      <div class='step' >
+    
+<h2>4. プロキシサーバ</h2>
+
+<p>リクエストを受け取る最上流に位置して、色々やってくれるよ．単純な構成なら置かないよ．</p>
+
+<ul>
+<li>リバースプロキシ</li>
+<li>負荷分散</li>
+<li>ssl</li>
+<li>キャッシュ</li>
+<li>静的ファイル配信</li>
+<li>などなど</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>全て同じ物理サーバでもOK</h2>
+</div>
+      <div class='step' >
+    
+<p align="center">
+  <img src="./slice3.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>プログラムはどこに書く？</h2>
+</div>
+      <div class='step' >
+    
+<p align="center">
+  <img src="./slice1.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>どうやって書く？</h2>
+
+<p>ある程度決まった<strong><em>構造</em></strong>が必要</p>
+</div>
+      <div class='step' >
+    
+<h1>構造？？</h1>
+</div>
+      <div class='step' >
+    
+<ol>
+<li>パターン化したものは<strong><em>覚えやすい</em></strong>し、理解しやすい．</li>
+<li>同じコードをまとめることで、<strong><em>コード量を減らす</em></strong>ことが出来る</li>
+<li><strong><em>難しい処理を隠蔽</em></strong>出来る</li>
+</ol>
+</div>
+      <div class='step' >
+    
+<h2>みんなで<strong><em>共通の構造</em></strong>を使おう</h2>
+
+<ul>
+<li>共通理解が進む</li>
+<li>共通言語にもなる</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>そこで<strong><em>MVC</em></strong>: Model-View-Controllerパターンを使おう</h2>
+</div>
+      <div class='step' >
+    
+<h2>先に注意事項です．</h2>
+
+<p>フレームワーク病はこじらせないように気をつけて下さい．
+だいたいです．こういうものは．</p>
+
+<p>重要なのは、要求されている“機能”や“生産性”を満たせるかどうか、です．</p>
+</div>
+      <div class='step' >
+    
+<p align="center">
+  <img src="./slice2.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<p align="center">
+  <img src="./slice5.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<p align="center">
+  <img src="./slice6.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<p align="center">
+  <img src="./slice7.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>コントローラ</h2>
+
+<p>どのリクエストが来たら、<strong>どのモデル</strong>と<strong>どのビュー</strong>を使うかを制御する</p>
+</div>
+      <div class='step' >
+    
+<h2>ビュー</h2>
+
+<p>モデルをどのように表示するかを制御する．</p>
+
+<h2>テンプレート</h2>
+
+<p>htmlのひな形．</p>
+</div>
+      <div class='step' >
+    
+<h2>モデル</h2>
+
+<h3><strong><em>アプリケーションの根幹！！！！</em></strong></h3>
+</div>
+      <div class='step' >
+    
+<h2>モデル</h2>
+
+<p>データベースからのクエリマッピング、結果のマッピングを主に行なう．それ以外でも、機能の中心となる計算、制限、制御を行なう．
+<strong><em>！！！リクエストや表示方法、ユーザの状態に対して無関心であること！！！</em></strong></p>
+</div>
+      <div class='step' >
+    
+<p>なぜ、モデルは
+<strong><em>！！！リクエストや表示方法、ユーザの状態に対して無関心であること！！！</em></strong>
+でなくてはならないのか？？</p>
+</div>
+      <div class='step' >
+    
+<ul>
+<li>リクエストや表示方法、ユーザの状態は別個コントローラやビューが制御する．</li>
+<li>条件分岐が多いと制御できなくなる．．</li>
+<li>コードがクリーンになる</li>
+<li>理解しやすい</li>
+<li>テストしやすい</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h2>補足！！</h2>
+
+<ul>
+<li>実はMVCには色々な解釈がある．</li>
+</ul>
+
+<p>フレームワークによって、モデルとバインドする機能はビューが持っていたり、ロジックをコントローラが持っていたり、、様々．</p>
+
+<ul>
+<li>亜種もある</li>
+</ul>
+
+<p>MVVM: Model-View-ViewModelとか、MOVE: Model-Operation-View-Eventなど．</p>
+
+<ul>
+<li>データバインディングの有無</li>
+</ul>
+
+<p>クライアントサイドだと、データバインディングがある場合があって、そうするとコントローラが薄くなるんだ．ちなみにwin8にはあるけどiosは無いよ．（最悪だね！）</p>
+</div>
+      <div class='step' >
+    
+<h1>MVCフレームワークの有名どころ</h1>
+
+<h2>サーバサイド</h2>
+</div>
+      <div class='step' >
+    
+<h2>ruby</h2>
+
+<ul>
+<li>rails</li>
+</ul>
+
+<h2>python</h2>
+
+<ul>
+<li>django</li>
+<li>web2py</li>
+</ul>
+
+<h2>node.js</h2>
+
+<ul>
+<li>express</li>
+</ul>
+
+<h2>php</h2>
+
+<ul>
+<li>cakephp</li>
+<li>symfony</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h1>MVCフレームワークの有名どころ</h1>
+
+<h2>クライアントサイド</h2>
+</div>
+      <div class='step' >
+    
+<ul>
+<li>backbone.js</li>
+<li>ember.js</li>
+<li>knockout.js</li>
+<li>angular.js</li>
+</ul>
+
+<p>番外編</p>
+
+<ul>
+<li>cocoa touch</li>
+</ul>
+</div>
+      <div class='step' >
+    
+<h1>サーバサイドとクライアントサイドのMVCに触れてみよう！</h1>
+
+<h2>express.jsとember.jsで作る簡易ブログサイト</h2>
+</div>
+      <div class='step' >
+    
+<h2>ここで使うフレームワーク・ライブラリ（と技術）</h2>
+
+<p>node.js (event driven web+app server)<br>
+express.js (server side framework)<br>
+ember.js (client side framework)<br>
+jade (server side template engine)<br>
+handlebars (client side template engine)<br>
+mongodb (document db)<br>
+mongoose (ORM)</p>
+</div>
+      <div class='step' >
+    
+<h2>まずは言葉を覚えよう</h2>
+</div>
+      <div class='step' >
+    
+<h2>node.js</h2>
+
+<p><a href="http://nodejs.org/">http://nodejs.org/</a></p>
+
+<blockquote>
+<p>Node.js is a platform built on Chrome&#39;s JavaScript runtime for easily building <strong><em>fast</em></strong>, <strong><em>scalable</em></strong> network applications. Node.js uses an <strong><em>event-driven</em></strong>, <strong><em>non-blocking</em></strong> I/O model that makes it lightweight and efficient, perfect for data-intensive <strong><em>realtime</em></strong> applications that run across distributed devices.</p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>node.js</h2>
+
+<p>webサーバとappサーバをシングルプロセス、シングルスレッドで回す(これがevent driven)優れもの．軽量で速くて取り回ししやすいよ．機能は少ないよ．</p>
+</div>
+      <div class='step' >
+    
+<h2>express.js</h2>
+
+<p>node.js上で動くサーバサイドフレームワーク．最小限の機能しかないので、githubからじゃんじゃんライブラリを突っ込んで使う．</p>
+</div>
+      <div class='step' >
+    
+<h2>ember.js</h2>
+
+<p>機能拡張が激しいクライアントサイドフレームワーク．</p>
+
+<p>以下玄人向け．</p>
+
+<blockquote>
+<p>1.0RC版がようやく2013/2に出た．テンプレートバインディング、ルーティング、コンポーネント開発、DB接続、リレーション管理などすごい勢いで追加中．ただし根幹のember-dataのdocumentはまだ無い．．bindingのパフォーマンスもかなりいい（nashibao調べ）</p>
+</blockquote>
+</div>
+      <div class='step' >
+    
+<h2>jade + handlebars</h2>
+
+<p><a href="https://github.com/visionmedia/jade">https://github.com/visionmedia/jade</a></p>
+
+<p><a href="http://handlebarsjs.com/">http://handlebarsjs.com/</a></p>
+
+<p>テンプレートエンジン達．無駄を排除して機能拡張したhtmlという感じ．</p>
+</div>
+      <div class='step' >
+    
+<h2>mongodb</h2>
+
+<p>略)キング君まかせ</p>
+</div>
+      <div class='step' >
+    
+<h2>mongoose</h2>
+
+<p>ORM(ODM): プログラム内の“オブジェクト”とデータベースのテーブル行（ドキュメント）間のマッピングを自動的に行なってくれる．クエリなども抽象化できて簡単に書ける．</p>
+</div>
+      <div class='step' >
+    
+<p><a href="https://github.com/nashibao/new_graduate_class">https://github.com/nashibao/new_graduate_class</a></p>
+</div>
+      <div class='step' >
+    
+<h2>サーバサイドのMVCの構造（express.js）</h2>
+
+<p align="center">
+  <img src="./mvc1.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>クライアントサイドのMVCの構造（ember.js）</h2>
+
+<p align="center">
+  <img src="./mvc2.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>モデル（サーバサイド）</h2>
+
+<p align="center">
+  <img src="./server_model.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>コントローラ（サーバサイド）</h2>
+
+<p align="center">
+  <img src="./server_controller.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>モデル（クライアントサイド）</h2>
+
+<p align="center">
+  <img src="./client_model.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>コントローラ（クライアントサイド）</h2>
+
+<p align="center">
+  <img src="./client_controller.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>テンプレート（jade+handlebars）</h2>
+
+<p align="center">
+  <img src="./template.png"/>
+</p>
+</div>
+      <div class='step' >
+    
+<h2>最後にもう一度注意点です．</h2>
+
+<p>プログラムはエンジニアにとって便利な道具です．とはいえ、、</p>
+
+<p>技術に捕われすぎて、逆に使われないように気をつけましょう．</p>
+</div>
+      <div class='step' >
+    
+<h2>最後にもう一度注意点です．</h2>
+
+<p>自分にとって重要なのは結局なんでしょうか？そこから逆算して、技術を選択 • 利用出来るといいかなぁと思います．</p>
+</div>
+      <div class='step' >
+    
+<h2>タスク</h2>
+
+<ol>
+<li><a href="http://meteor.com/">meteor.js</a>についてscreencastなどを見てみて、100文字以内で感想を述べて下さい．</li>
+<li>ここまでの勉強会について、良かったところ、悪かったところ、こうして欲しいところなどを僕(naoki.shibayama)にメールを投げて下さい．</li>
+</ol>
+</div>
+      <div class='step' >
+    
+<p>終わりです．</p>
+
+      </div>
+    <script src="js/impress.js"></script>
+    <script>impress().init();</script>
+  </body>
+</html>
+    
