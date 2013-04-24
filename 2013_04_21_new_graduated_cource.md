@@ -3,15 +3,24 @@
 
 ---
 
-## 人間って、全体像が見えていないと、なんだか分かった気になれないと思いませんか？
-
----
 
 ## 今日はウェブアプリケーションがどう動いているのかの入門編です．
 
 ---
 
 ## もう一つは、ウェブアプリケーションをどのように構造化するかの入門編です．
+
+---
+
+## そして裏テーマは、少し新しめの技術に触れてみて、刺激を受けてみることです．
+
+---
+
+## 今日の内容
+
+- 1. ウェブアプリの全体構造
+- 2. ウェブアプリの構成の仕方
+- 裏. express.jsとember.jsでフレームワークに触れてみよう．
 
 ---
 
@@ -25,6 +34,7 @@ by wikipedia
 ---
 
 # 全体像
+## 人間って、全体像が見えていないと、なんだか分かった気になれないと思いませんか？
 
 ---
 
@@ -42,7 +52,7 @@ by wikipedia
 
 ---
 
-## サーバと***物理***サーバ
+## そのまえに、、サーバと***物理***サーバ
 
 サーバだけだと、プロセスなのか、マシンなのか定かじゃないから、わざわざ物理サーバと言ったりするよ．
 
@@ -168,6 +178,12 @@ by wikipedia
 
 ---
 
+<p align="center">
+  <img src="./mvc3.png"/>
+</p>
+
+---
+
 ## コントローラ
 
 どのリクエストが来たら、**どのモデル**と**どのビュー**を使うかを制御する
@@ -220,6 +236,10 @@ htmlのひな形．
 - 亜種もある
 
 MVVM: Model-View-ViewModelとか、MOVE: Model-Operation-View-Eventなど．
+
+---
+
+## 補足2！！
 
 - データバインディングの有無
 
@@ -349,7 +369,37 @@ https://github.com/nashibao/new_graduate_class
 
 ---
 
-## サーバサイドのMVCの構造（express.js）
+## 全体の構造
+
+<p align="center">
+  <img src="./node_architecture.png"/>
+</p>
+
+
+---
+
+## サーバサイドの構造（express.js）
+
+
+<p align="center">
+  <img src="./server_side_mvc.png"/>
+</p>
+
+
+---
+
+## クライアントサイドの構造（ember.js）
+
+
+<p align="center">
+  <img src="./ember_mvc.png"/>
+</p>
+
+
+---
+
+
+## サーバサイドの構成（express.js）
 
 <p align="center">
   <img src="./mvc1.png"/>
@@ -357,7 +407,7 @@ https://github.com/nashibao/new_graduate_class
 
 ---
 
-## クライアントサイドのMVCの構造（ember.js）
+## クライアントサイドの構成（ember.js）
 
 <p align="center">
   <img src="./mvc2.png"/>
